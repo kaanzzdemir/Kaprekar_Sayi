@@ -1,0 +1,230 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<conio.h>
+int *(*matris);
+ int satir,sutun,rastgele,temp,elemanSayisi=0,tmp,sayi=0;
+ int i,j;
+ int *elemanlar;
+ int *(*transpose);
+ FILE *dosya;
+int rastgeleSayi()
+{
+	int rastgele;
+	rastgele=rand()%40000;	
+}
+void deger_al(void){
+printf(" ---- M4TRIS OLUSTURMA PROGRAMINA HOSGELDINIZ ---- \n");
+ //yazdırılıcak matrisin satır sütun sayıları kullanıcıdan alınması başlangıcı
+ printf("\n");
+ printf(" ---- OLUSTURACAGINIZ MATRISIN SATIR SAYISINI GIRINIZ : ");
+ scanf("%d",&satir);
+ printf("\n");
+ printf(" ---- OLUSTURACAGINIZ MATRISIN SUTUN SAYISINI GIRINIZ : ");
+ scanf("%d",&sutun);
+}
+void dinamik_dizi(void){
+	 matris = (int **)malloc(satir*sutun*sizeof(int));
+ elemanlar = (int *)malloc(satir*sutun*sizeof(int));
+ transpose = (int **)malloc(satir*sutun*sizeof(int)*100);
+ for(i=0;i<satir;i++)
+ matris[i]=(int *)malloc(sutun*satir*sizeof(int));
+ 
+ for(i=0;i<satir;i++)
+ transpose[i]=(int *)malloc(sutun*satir*sizeof(int));
+}
+void rast_gele(void){
+ for(i=0;i<satir;i++)
+  for(j=0;j<sutun;j++){
+	matris[i][j]=rastgeleSayi();	
+	}	
+ system("cls");
+}
+void rastgele_yaz(void){
+printf("\n\n ---- OLUSTURULAN MATRIS \n\n");
+ for(i=0;i<satir;i++){
+  printf("    ---- ");
+  for(j=0;j<sutun;j++)
+  printf("%2d ",matris[i][j]);
+  printf("\n");
+ }
+}
+void ciftten_teke(void){	
+ for(i=0;i<satir;i++)
+  for(j=0;j<sutun;j++){
+ 	elemanlar[elemanSayisi]=matris[i][j];
+	elemanSayisi++;	
+ }
+}
+void bubble_sort(void){	
+printf("\n\n ---- OLUSTURULAN MATRISIN KUCUKTEN BUYUGE DOGRU SIRALANMIS HALI \n\n");
+ for(i=0;i<elemanSayisi;i++)
+   for(j=elemanSayisi-1;j>i;j--)
+	 if(elemanlar[j] < elemanlar[j-1]){
+      tmp = elemanlar[j-1];
+      elemanlar[j-1] = elemanlar[j];
+      elemanlar[j] = tmp;
+	  }
+	  
+ printf("    ---- ");
+ 	for(j=sayi;j<(sutun*satir)-1;j++)
+ 	{
+ 		printf("%d ",elemanlar[j]);
+ 		sayi++;
+ 		if(sayi%sutun==0)
+ 		{
+ 		 printf("\n    ---- ");	
+		}
+ 	}
+ 	int sonEleman = (sutun*satir)-1;
+ 	printf("%d",elemanlar[sonEleman]);
+ 	
+ //sıralanmış sayıları yazdırma bitişi
+ printf("\n\n");
+}
+void menu_islem(int sayi){
+if(sayi==1)
+ {
+ 	if(satir==sutun)
+ 	{
+ 	//Transpoze alma başlangıcı 
+	 dosya = fopen("transpoze.txt","a+");
+	 
+	 for(i = 0; i < satir; i++)
+	 {
+	 	for(j = 0; j < sutun; j++)
+	    {
+	     transpose[j][i] = matris[i][j];
+	    }
+	 }
+	 fprintf(dosya,"\nMatris'in ilk hali\n\n");
+	 for(i=0;i<satir;i++)
+	 {
+	 	for(j=0;j<sutun;j++)
+	 	{
+	     fprintf(dosya,"%d ",matris[i][j]);
+	     if((j+1)%sutun==0)
+	     {
+	     	fprintf(dosya,"\n");
+		 }
+		}
+	 }
+	 fprintf(dosya,"\nMatris'in transpozesi alinmis hali\n\n");
+	 for(i=0;i<satir;i++)
+	 {
+	 	for(j=0;j<sutun;j++)
+	 	{
+	     fprintf(dosya,"%d ",transpose[i][j]);
+		}
+		fprintf(dosya,"\n");
+	 }
+	 fprintf(dosya,"\n- - - - - - - - - - - - - - - - - - \n");
+	 
+	 fclose(dosya);
+	 
+	 printf("\n\n ---- TRANSPOZE ALMA ISLEMINIZ BASARI ILE GERCEKLESTI, LUTFEN TEXT DOSYASINI KONTROL EDINIZ! \n\n ---- PROGRAMDAN CIKIS YAPIYORSUNUZ, LUTFEN HERHANGI BIR TUSA BASIN...");
+	}
+	else
+	{
+	 printf("\n ---- TRANSPOZE ALMA ISLEMINI YAPMAK ISTIYORSANIZ LUTFEN SATIR VE SUTUN DEGERLERINI AYNI GIRINIZ!\n\n ---- PROGRAMDAN CIKIS YAPIYORSUNUZ, LUTFEN HERHANGI BIR TUSA BASIN..."); 
+	}
+
+ }
+ if(sayi==2)
+ {
+ 	dosyaKaprekar = fopen("kaprekar.txt","a+");
+ 	int kaprekarSayisi,kaprekarBirlik,kaprekarOnluk,kaprekarYuzluk,kaprekarBinlik,kaprekarOnaBol,kaprekarYuzeBol,kaprekarBineBol,
+	 kaprekarOnBineBol,kaprekarYuzBineBol,kaprekarOnBinlik,kaprekarYuzBinlik,kaprekarBirMilyonluk,kaprekarOnMilyonluk,
+	 kaprekarYuzMilyonluk,kaprekarBirMilyonaBol,kaprekarOnMilyonaBol,kaprekarYuzMilyonaBol,kaprekarBirTrilyonaBol,kaprekarSayiAdet;
+ 	for(i=0;i<satir*sutun;i++)
+ 	{
+	 	if(elemanlar[i]!=0 && elemanlar[i]!=100 && elemanlar[i]!=1000 && elemanlar[i]!=10000)
+	 	{
+	 	 kaprekarSayisi=elemanlar[i]*elemanlar[i];
+	 	 kaprekarBirlik=kaprekarSayisi%10;
+	 	 kaprekarOnluk=kaprekarSayisi%100;
+	 	 kaprekarYuzluk=kaprekarSayisi%1000;
+	 	 kaprekarBinlik=kaprekarSayisi%10000;
+	 	 kaprekarOnBinlik=kaprekarSayisi%100000;
+	 	 kaprekarYuzBinlik=kaprekarSayisi%1000000;
+	 	 kaprekarBirMilyonluk=kaprekarSayisi%10000000;
+	 	 kaprekarOnMilyonluk=kaprekarSayisi%100000000;
+	 	 kaprekarYuzMilyonluk=kaprekarSayisi%1000000000;
+	 	 
+	 	 kaprekarOnaBol=kaprekarSayisi/10; 
+	 	 kaprekarYuzeBol=kaprekarSayisi/100;
+	 	 kaprekarBineBol=kaprekarSayisi/1000;
+	 	 kaprekarOnBineBol=kaprekarSayisi/10000;
+	 	 kaprekarYuzBineBol=kaprekarSayisi/100000;
+	 	 kaprekarBirMilyonaBol=kaprekarSayisi/1000000;
+	 	 kaprekarOnMilyonaBol=kaprekarSayisi/10000000;
+	 	 kaprekarYuzMilyonaBol=kaprekarSayisi/100000000;
+	 	 kaprekarBirTrilyonaBol=kaprekarSayisi/1000000000;
+	 	 
+	 	if(kaprekarSayisi!=0 && kaprekarBirlik+kaprekarOnaBol == elemanlar[i] || kaprekarBirlik==elemanlar[i] || 
+		 kaprekarOnaBol==elemanlar[i] || kaprekarBirlik+kaprekarOnaBol == elemanlar[i] || kaprekarYuzeBol + 
+		 kaprekarBirlik == elemanlar[i] || kaprekarBineBol + kaprekarYuzluk == elemanlar[i] || kaprekarOnBineBol
+		 + kaprekarBinlik == elemanlar[i] || kaprekarYuzBineBol + kaprekarOnBinlik == elemanlar[i] || 
+		 kaprekarBirMilyonaBol+kaprekarYuzBinlik==elemanlar[i] || kaprekarOnMilyonaBol+kaprekarBirMilyonluk==elemanlar[i] 
+		 || kaprekarYuzMilyonaBol+kaprekarOnMilyonluk==elemanlar[i] || kaprekarBirTrilyonaBol+kaprekarYuzMilyonluk==elemanlar[i]) 
+	 	 {
+	 	  printf("\n ---- %d. SIRADA BULUNAN %d SAYISI KAPREKAR SAYIDIR. \n",(i+1),elemanlar[i]);
+	 	  fprintf(dosyaKaprekar,"%d ",elemanlar[i]);
+	 	  kaprekarSayiAdet++;
+		 }
+		}	
+	}
+	if(kaprekarSayiAdet==0)
+	{
+		printf("\n\n ---- MAALESEF KAPREKAR SAYI BULUNAMADI, PROGRAMI KAPATMAK ICIN LUTFEN BIR TUSA BASIN.\n\n");
+		fprintf(dosyaKaprekar,"MAALESEF KAPREKAR SAYI BULUNAMADI. \n\n");
+		fclose(dosyaKaprekar); 
+	}
+	else
+	{	
+		fprintf(dosyaKaprekar,"SAYILARI KAPREKAR SAYILARDIR.\n\n");
+		fclose(dosyaKaprekar); 
+		printf("\n\n ---- KAPREKAR SAYILARI BULMA ISLEMINIZ BASARI ILE GERCEKLESMISTIR, PROGRAMI KAPATMAK ICIN LUTFEN BIR TUSA BASIN.\n\n");
+	}
+ }
+}
+void dizi_temizle(void){
+	 for(i=0;i<satir;i++)
+  free((void *) matris[i]);
+  free((void *) matris);
+  free((void *) elemanlar);
+  free((void *) transpose);
+}
+int main(){
+	
+ srand(time(NULL)); 
+ //yazdırılıcak matrisin satır sütun sayıları kullanıcıdan alınması bitişi
+ deger_al();
+ //dinamik dizilerin oluşturulması
+ dinamik_dizi();
+ //dinamik dizilerin oluşturulması 
+ //matrisin içine rastgele sayının ataması yapılması başlangıcı  
+ rast_gele();
+ //matrisin içine rastgele sayının ataması yapılması bitişi 	
+ //diziye random atılan sayıların yazımı başlangıcı
+ rastgele_yaz();
+ //diziye random atılan sayıların yazımı bitişi
+ //bubble sort işleminin kolay olması için çift boyutlu diziden tek boyutlu diziye taşıma işlemi başlangıcı
+ ciftten_teke();
+ //bubble sort işleminin kolay olması için çift boyutlu diziden tek boyutlu diziye taşıma işlemi bitişi
+ //bubble sort sıralama başlangıcı
+ bubble_sort();
+ //Kullanıcı önüne ilk çıkan menü başlangıcı
+ 
+ int menuId;
+ printf(" ---- 1-TRANSPOZE ALMA\n");
+ printf(" ---- 2-KAPREKAR SAYI BUL\n");
+ printf(" ---- SECENEGINIZ: ");
+ scanf("%d",&menuId);
+ menu_islem(menuId);
+ //Kullanıcı önüne ilk çıkan menü bitişi
+ //dizilerin içini temizleme başlangıcı
+ dizi_temizle();
+ //dizilerin içini temizleme bitişi
+ return 0;
+}
